@@ -1,5 +1,5 @@
 {% set name = "opentelemetry-instrumentation-milvus" %}
-{% set version = "0.40.3" %}
+{% set version = "0.40.4" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/opentelemetry_instrumentation_milvus-{{ version }}.tar.gz
-  sha256: eef6526acb6f49ad6d367fda3bd2b87698a4ad7e8877a66d1729a6676c9209a8
+  sha256: 91f088bd9ccd457f3c2faa22eaa2fe8e3ee5b2b1247c0e2577f0fac541b844ed
 
 build:
   noarch: python
@@ -24,7 +24,7 @@ requirements:
     - opentelemetry-api >=1.28.0,<2.0.0
     - opentelemetry-semantic-conventions >=0.50b0
     - opentelemetry-instrumentation >=0.50b0
-    - opentelemetry-semantic-conventions-ai 0.4.5
+    - opentelemetry-semantic-conventions-ai 0.4.8
   run_constrained:
     - pymilvus >=2.4.1,<3.0.0
 
