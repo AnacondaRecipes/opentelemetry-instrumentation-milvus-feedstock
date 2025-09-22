@@ -1,51 +1,54 @@
 {% set name = "opentelemetry-instrumentation-milvus" %}
-{% set version = "0.47.3" %}
+{% set version = "0.47.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/opentelemetry_instrumentation_milvus-{{ version }}.tar.gz
-  sha256: 170099e53f8f3ae006592a006287947f6c41b25268c34a3635f578eae4b7b927
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 18b5f622f58940d74e559f7493bb72527e5ad22f098fb0fd08062b4c9fd83d74
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<39]
 
 requirements:
   host:
-    - python {{ python_min }}
-    - poetry-core
     - pip
+    - python
+    - poetry-core
   run:
-    - python >={{ python_min }}
+    - python
     - opentelemetry-api >=1.28.0,<2.0.0
     - opentelemetry-semantic-conventions >=0.50b0
     - opentelemetry-instrumentation >=0.50b0
-    - opentelemetry-semantic-conventions-ai >=0.4.12,<0.5
+    - opentelemetry-semantic-conventions-ai >=0.4.13,<0.5
   run_constrained:
     - pymilvus >=2.4.1,<3.0.0
 
+# Unable to run tests and check imports, pymilvus is not in the main channel.
 test:
-  # pymilvus is too old on conda-forge
-  # imports:
-  #   - opentelemetry.instrumentation.milvus
   commands:
     - pip check
   requires:
     - pip
-    - python {{ python_min }}
 
 about:
   home: https://www.traceloop.com/openllmetry
-  dev_url: https://github.com/traceloop/openllmetry
-  doc_url: https://www.traceloop.com/docs/openllmetry/introduction
   summary: OpenTelemetry Milvus instrumentation
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
+  description: |
+    This library allows tracing client-side calls to Milvus vector DB sent with the official Milvus library.
+  dev_url: https://github.com/traceloop/openllmetry
+  doc_url: https://www.traceloop.com/docs/openllmetry/introduction
 
 extra:
   recipe-maintainers:
     - timkpaine
+  skip-lints:
+    - invalid_url
+    - missing_imports_or_run_test_py
