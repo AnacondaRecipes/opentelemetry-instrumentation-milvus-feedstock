@@ -31,8 +31,8 @@ requirements:
 
 # Unable to run tests and check imports, pymilvus is not in the main channel.
 test:
-  #commands:
-  #  - pip check
+  commands:
+    - pip check
   requires:
     - pip
 
