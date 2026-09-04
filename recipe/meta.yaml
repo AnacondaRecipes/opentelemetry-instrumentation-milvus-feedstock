@@ -8,9 +8,12 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: 9820db9b8ea7ec3fcfaa461e63105f426fbb7d5dce175d5f795df84d82343e40
+  patches:
+    # fix typo (see comment below) also in pyproject.toml for 'pip check' to work (in both own and dependant packages).
+    - fix_pinning_typo.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [py<310]
 
@@ -31,8 +34,8 @@ requirements:
 
 # Unable to run tests and check imports, pymilvus is not in the main channel.
 test:
-  #commands:
-  #  - pip check
+  commands:
+    - pip check
   requires:
     - pip
 
